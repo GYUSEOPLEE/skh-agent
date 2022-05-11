@@ -7,7 +7,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AgentServiceImpl implements AgentService {
-    private final GpioController gpio = GpioFactory.getInstance();
+    //GPIO 라이브러리는 Rasbpberry Pi 에서 작동시켜야 해서 주석처리 해놈
+    /*private final GpioController gpio = GpioFactory.getInstance();
     //초음파 센서 기본 세팅 값
     private long rejectionStart;
     private long rejectionTime;
@@ -93,7 +94,7 @@ public class AgentServiceImpl implements AgentService {
     private void busyWaitNanos(long nanos) {
         long waitUntil = System.nanoTime() + nanos;
         while (waitUntil > System.nanoTime()) {}
-    }
+    }*/
 
 
     //위 참조해서 아래 작성
