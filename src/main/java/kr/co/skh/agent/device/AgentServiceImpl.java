@@ -103,13 +103,13 @@ public class AgentServiceImpl implements AgentService {
     }
 
     @Override
-    public void warnHelmetNoWear() {
-
+    public HelmetLocation checkHelmetLocation() {
+        return null;
     }
 
     @Override
-    public HelmetLocation checkHelmetLocation() {
-        return null;
+    public void warnHelmetNoWear() {
+
     }
 
     @Override

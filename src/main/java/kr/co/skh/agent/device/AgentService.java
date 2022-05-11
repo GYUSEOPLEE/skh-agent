@@ -5,7 +5,7 @@ import kr.co.skh.agent.communication.HelmetWear;
 
 public interface AgentService {
     public HelmetWear checkHelmetWear();
-    public void warnHelmetNoWear();
     public HelmetLocation checkHelmetLocation();
+    public void warnHelmetNoWear();
     public void warnHelmetLoss();
 }
