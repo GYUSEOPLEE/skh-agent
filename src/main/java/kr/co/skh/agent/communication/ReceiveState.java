@@ -1,9 +1,12 @@
 package kr.co.skh.agent.communication;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import java.io.Serializable;
 
-@Data
-public class ReceiveState {
+@Getter
+@Setter
+public class ReceiveState implements Serializable {
     private String code;
     private String message;
 }

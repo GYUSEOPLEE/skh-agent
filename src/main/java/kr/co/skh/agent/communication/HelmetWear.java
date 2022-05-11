@@ -1,9 +1,12 @@
 package kr.co.skh.agent.communication;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import java.io.Serializable;
 
-@Data
-public class HelmetWear {
+@Getter
+@Setter
+public class HelmetWear implements Serializable {
     private String no;
     private char wear;
 }
