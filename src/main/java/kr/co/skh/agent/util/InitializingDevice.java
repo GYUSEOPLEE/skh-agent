@@ -1,10 +1,16 @@
 package kr.co.skh.agent.util;
 
-import org.springframework.stereotype.Service;
+import kr.co.skh.agent.communication.CommunicationService;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-@Service
-public class InitializingDevice {
-    public void afterPropertiesSet() {
+@Component
+public class InitializingDevice implements InitializingBean {
+    @Autowired private CommunicationService communicationService;
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        communicationService.sendHelmet();
     }
 }

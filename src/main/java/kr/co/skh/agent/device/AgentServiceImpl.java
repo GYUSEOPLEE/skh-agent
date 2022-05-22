@@ -1,8 +1,7 @@
 package kr.co.skh.agent.device;
 
-import com.pi4j.io.gpio.*;
-import kr.co.skh.agent.communication.HelmetLocation;
-import kr.co.skh.agent.communication.HelmetWear;
+import kr.co.skh.agent.domain.HelmetLocation;
+import kr.co.skh.agent.domain.HelmetWear;
 import org.springframework.stereotype.Service;
 
 @Service

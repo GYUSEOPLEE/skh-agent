@@ -1,4 +1,4 @@
-package kr.co.skh.agent.communication;
+package kr.co.skh.agent.domain;
 
 import lombok.Getter;
 import lombok.Setter;

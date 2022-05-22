@@ -1,7 +1,7 @@
 package kr.co.skh.agent.device;
 
-import kr.co.skh.agent.communication.HelmetLocation;
-import kr.co.skh.agent.communication.HelmetWear;
+import kr.co.skh.agent.domain.HelmetLocation;
+import kr.co.skh.agent.domain.HelmetWear;
 
 public interface AgentService {
     public HelmetWear checkHelmetWear();

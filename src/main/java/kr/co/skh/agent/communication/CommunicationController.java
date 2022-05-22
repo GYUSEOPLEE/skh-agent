@@ -1,5 +1,6 @@
 package kr.co.skh.agent.communication;
 
+import kr.co.skh.agent.domain.ReceiveState;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -7,7 +8,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class CommunicationController {
     @RequestMapping("/kickboard/use")
-    public @ResponseBody ReceiveState receiveKickboardUse(String use) {
+    public @ResponseBody
+    ReceiveState receiveKickboardUse(String use) {
         return null;
     }
 

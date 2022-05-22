@@ -1,6 +1,6 @@
 package kr.co.skh.agent.util;
 
-import kr.co.skh.agent.communication.HelmetLocation;
+import kr.co.skh.agent.domain.HelmetLocation;
 import org.springframework.stereotype.Service;
 
 @Service
