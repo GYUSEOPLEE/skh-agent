@@ -1,7 +1,10 @@
 package kr.co.skh.agent.device;
 
+import kr.co.skh.agent.domain.Helmet;
 import kr.co.skh.agent.domain.HelmetLocation;
 import kr.co.skh.agent.domain.HelmetWear;
+import kr.co.skh.agent.domain.Kickboard;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -84,6 +87,7 @@ public class AgentServiceImpl implements AgentService {
         return distance < 100;
     }
 
+//이해할수 없는 코드
     private void busyWaitMicros(long micros) {
         long waitUntil = System.nanoTime() + (micros * 1_000);
 
@@ -95,23 +99,38 @@ public class AgentServiceImpl implements AgentService {
         while (waitUntil > System.nanoTime()) {}
     }*/
 
-
+    @Autowired Helmet helmet;
     //위 참조해서 아래 작성
+    // 헬멧 착용 여부 확인
     @Override
     public HelmetWear checkHelmetWear() {
-        return null;
+        //헬멧 착용 여부 확인 코드, 착용 여부 값 Y 또는 N
+
+        return HelmetWear.builder()
+                .no(helmet.getNo())
+                .wear("Y/N")
+                .build();
     }
 
+    //헬멧 위치 확인 (GPS모듈)
     @Override
     public HelmetLocation checkHelmetLocation() {
         return null;
     }
 
+    // 헬멧 미착용시 경고음
     @Override
     public void warnHelmetNoWear() {
-
+//        for (int i = 0; i < 3; i++) {
+//            pinWarnNotice.high();
+//            Thread.sleep(200);
+//
+//            pinWarnNotice.low();
+//            Thread.sleep(200);
+//        }
     }
 
+    // 헬멧 분실 시 경고음
     @Override
     public void warnHelmetLoss() {
 

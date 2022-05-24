@@ -18,6 +18,6 @@ public class Helmet implements Serializable {
     private String model;
     private String ip;
     private String kickboardIp;
-    private char activation;
-    private char size;
+    private String activation;
+    private String size;
 }

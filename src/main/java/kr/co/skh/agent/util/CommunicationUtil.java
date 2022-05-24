@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CommunicationUtil {
-    @Value("${server.Ip}") private String serverIp;
-    @Value("${server.url}") private String url;
+//    @Value("${server.ip}") private String serverIp;
+//    @Value("${server.url}") private String url;
 
     public boolean request(Helmet helmet) throws Exception {
-        System.out.println(serverIp);
+//        System.out.println(serverIp);
 //        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 //        OkHttpClient okHttpClient = new OkHttpClient();
 //
