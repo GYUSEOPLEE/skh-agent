@@ -101,7 +101,7 @@ public class AgentServiceImpl implements AgentService {
 
     @Autowired Helmet helmet;
     //위 참조해서 아래 작성
-    // 헬멧 착용 여부 확인
+    //TODO 헬멧 착용 여부 확인
     @Override
     public HelmetWear checkHelmetWear() {
         //헬멧 착용 여부 확인 코드, 착용 여부 값 Y 또는 N
@@ -112,13 +112,14 @@ public class AgentServiceImpl implements AgentService {
                 .build();
     }
 
-    //헬멧 위치 확인 (GPS모듈)
+    //TODO 헬멧 위치 확인 (GPS모듈)
     @Override
     public HelmetLocation checkHelmetLocation() {
-        return null;
+        // gps 코드 (while 문)
+        return HelmetLocation.builder().build();
     }
 
-    // 헬멧 미착용시 경고음
+    //TODO 헬멧 미착용시 경고음 (부저)
     @Override
     public void warnHelmetNoWear() {
 //        for (int i = 0; i < 3; i++) {
@@ -130,7 +131,7 @@ public class AgentServiceImpl implements AgentService {
 //        }
     }
 
-    // 헬멧 분실 시 경고음
+    //TODO 헬멧 분실 시 경고음 (부저)
     @Override
     public void warnHelmetLoss() {
 

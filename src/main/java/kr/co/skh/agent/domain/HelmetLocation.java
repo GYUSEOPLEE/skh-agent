@@ -1,12 +1,14 @@
 package kr.co.skh.agent.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.stereotype.Component;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Getter @Builder
+@NoArgsConstructor @AllArgsConstructor
+@Component
 public class HelmetLocation implements Serializable {
     private LocalDateTime dateTime;
     private double latitude;
