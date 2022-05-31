@@ -1,14 +1,11 @@
 package kr.co.skh.agent.domain;
 
 import lombok.*;
-import org.springframework.stereotype.Component;
-
-import java.io.Serializable;
 
 @Getter @Builder
 @NoArgsConstructor @AllArgsConstructor
-@Component
-public class HelmetWear implements Serializable {
-    private String no;
-    private String wear;
+public class HelmetWear {
+    private String helmetNo;
+    @Builder.Default
+    private String wear = "N";
 }

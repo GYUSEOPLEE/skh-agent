@@ -5,8 +5,8 @@ import kr.co.skh.agent.domain.HelmetWear;
 import kr.co.skh.agent.domain.Kickboard;
 
 public interface AgentService {
-    public HelmetWear checkHelmetWear();
-    public HelmetLocation checkHelmetLocation();
+    public HelmetWear checkHelmetWear() throws Exception;
+    public HelmetLocation checkHelmetLocation() throws Exception;
     public void warnHelmetNoWear();
     public void warnHelmetLoss();
 }

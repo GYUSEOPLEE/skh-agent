@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public interface CommunicationService {
     public void sendHelmet() throws IOException, JSONException;
-    public void sendHelmetWear() throws IOException, JSONException;
-    public void sendHelmetLocation() throws IOException, JSONException;
+    public void sendHelmetWear();
+    public void sendHelmetLocation();
 
 }

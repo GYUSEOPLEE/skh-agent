@@ -6,53 +6,77 @@ import kr.co.skh.agent.domain.HelmetLocation;
 import kr.co.skh.agent.domain.HelmetWear;
 import kr.co.skh.agent.domain.Kickboard;
 import kr.co.skh.agent.util.CommunicationUtil;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
+@EnableScheduling
 @Service
-public class CommunicationServiceImpl implements CommunicationService{
-    @Autowired CommunicationUtil communicationUtilimpl;
+public class CommunicationServiceImpl extends Thread implements CommunicationService{
+    @Autowired CommunicationUtil communicationUtil;
     @Autowired AgentService agentService;
     @Autowired Kickboard kickboard;
-    @Autowired HelmetWear helmetWear;
+    @Autowired HelmetLocation helmetLocation;
     @Autowired Helmet helmet;
+    @Value("${path}") String watchPath;
 
-    // 헬멧 정보 송신
+    // 헬멧 정보 전송
     @Override
     public void sendHelmet() throws IOException, JSONException {
-        boolean result = communicationUtilimpl.request(helmet);
-        //true / false 후 처리
+        boolean result = communicationUtil.request(helmet); //true / false 후 처리
+    }
+
+    // 헬멧 착용 여부 송신 스레드 처리
+    @SneakyThrows
+    @Override
+    public void run() {
+        while (true) {
+            sendHelmetWear();
+        }
     }
 
     // 헬멧 착용 여부 송신
     @Override
-    public void sendHelmetWear() throws IOException, JSONException{
-       // 킥보드 사용 여부 체크 while()
-        while ("Y".equals(kickboard.getUse())) {
-//            //TODO 초음파 센서 작동 (헬멧 착용 여부 확인)
-              helmetWear = agentService.checkHelmetWear();
+    public void sendHelmetWear() {
+        if ("Y".equals(kickboard.getUse())) {
+            try {
+                HelmetWear helmetWear = agentService.checkHelmetWear();
+                boolean result = communicationUtil.request(helmetWear);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                boolean result = communicationUtil.request(HelmetWear.builder()
+                        .helmetNo(helmet.getNo()).build());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-
-        //TODO 헬멧 미착용 시 경고음 발생 (헬멧 미착용 중일시)
-        if ("N".equals(helmetWear.getWear())) {
-            agentService.warnHelmetNoWear();
-        }
-
-        //헬멧 착용 여부를 송신한다.
-        boolean result = communicationUtilimpl.request(helmetWear);
-        // true / false 후 처리
     }
 
     //TODO 헬멧 위치 정보 송신
     @Override
-    public void sendHelmetLocation() throws IOException, JSONException {
-        // TODO 현재 시간 체크
-        // 헬멧 위치 정보 확인
-        HelmetLocation helmetLocation = agentService.checkHelmetLocation();
-        // 위치 정보 송신
-        boolean result = communicationUtilimpl.request(helmetLocation);
+    @Scheduled(initialDelay = 1000, cron = "0/5 * * * * ?")
+    public void sendHelmetLocation() {
+        //  현재시간 측정
+        LocalDateTime localDateTime = LocalDateTime.now().withNano(0);
+        try {
+            // 헬멧 위치 정보를 읽어와 HelmetLocation 객체 생성 및 dateTime 할당
+            helmetLocation = agentService.checkHelmetLocation().toBuilder()
+                    .dateTime(localDateTime)
+                    .build();
+            // 생성된 HelmetLocation 객체 정보 전송
+            boolean result = communicationUtil.request(helmetLocation);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 }
