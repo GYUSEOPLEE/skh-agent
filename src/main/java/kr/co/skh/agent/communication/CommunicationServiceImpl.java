@@ -48,6 +48,10 @@ public class CommunicationServiceImpl extends Thread implements CommunicationSer
         if ("Y".equals(kickboard.getUse())) {
             try {
                 HelmetWear helmetWear = agentService.checkHelmetWear();
+                // 헬멧 미착용시 경고음 알림
+                if ("N".equals(helmetWear.getWear())) {
+                    agentService.warnHelmetNoWear();
+                }
                 boolean result = communicationUtil.request(helmetWear);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -55,14 +59,15 @@ public class CommunicationServiceImpl extends Thread implements CommunicationSer
         } else {
             try {
                 boolean result = communicationUtil.request(HelmetWear.builder()
-                        .helmetNo(helmet.getNo()).build());
+                        .helmetNo(helmet.getNo())
+                        .build());
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    //TODO 헬멧 위치 정보 송신
+    // 헬멧 위치 정보 송신
     @Override
     @Scheduled(initialDelay = 1000, cron = "0/5 * * * * ?")
     public void sendHelmetLocation() {

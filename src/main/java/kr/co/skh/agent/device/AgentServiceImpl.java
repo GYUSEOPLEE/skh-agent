@@ -16,7 +16,7 @@ public class AgentServiceImpl implements AgentService {
     @Autowired private Helmet helmet;
     @Value("${directory-path}") private String directoryPath;
     @Value("${helmetWear-filePath}") private String wearPath;
-    @Value("${helmetLocation-filePath") private String locationPath;
+    @Value("${helmetLocation-filePath}") private String locationPath;
 
     //TODO 헬멧 착용 여부 확인
     @Override
@@ -32,6 +32,7 @@ public class AgentServiceImpl implements AgentService {
 
         BufferedReader bufferedReader = new BufferedReader(new FileReader(directoryPath + wearPath));
         if (Integer.parseInt(bufferedReader.readLine().trim()) < 50) {
+
             return HelmetWear.builder()
                     .helmetNo(helmet.getNo())
                     .wear("Y")
@@ -48,6 +49,7 @@ public class AgentServiceImpl implements AgentService {
     public HelmetLocation checkHelmetLocation() throws Exception {
         BufferedReader bufferedReader = new BufferedReader(new FileReader(directoryPath + locationPath));
         StringTokenizer stringTokenizer = new StringTokenizer(bufferedReader.readLine().replaceAll("\\p{Z}",""), ",");
+
         return HelmetLocation.builder()
                 .latitude(Double.parseDouble(stringTokenizer.nextToken()))
                 .longitude(Double.parseDouble(stringTokenizer.nextToken()))
@@ -58,12 +60,10 @@ public class AgentServiceImpl implements AgentService {
     //TODO 헬멧 미착용시 경고음 (부저)
     @Override
     public void warnHelmetNoWear() {
-
     }
 
     //TODO 헬멧 분실 시 경고음 (부저)
     @Override
     public void warnHelmetLoss() {
-
     }
 }

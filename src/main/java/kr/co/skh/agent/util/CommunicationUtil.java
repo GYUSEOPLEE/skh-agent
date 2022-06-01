@@ -15,7 +15,9 @@ import java.io.IOException;
 public class CommunicationUtil {
     @Value("${hlm-protocol}") private String protocol;
     @Value("${hlm-ip}") private String serverIp;
-    @Value("${hlm-url}") private String url;
+    @Value("${hlm-url-info}") private String infoUrl;
+    @Value("${hlm-url-wear}") private String wearUrl;
+    @Value("${hlm-url-location}") private String locationUrl;
 
     //TODO 오버로딩 중복코드 발생 -> 리팩토링 필요
     //헬멧 정보 전송
@@ -23,7 +25,7 @@ public class CommunicationUtil {
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(helmet);
 
-        return "200".equals(createRequest(json).getString("code"));
+        return "200".equals(createRequest(json, infoUrl).getString("code"));
     }
 
     //TODO 오버로딩 중복코드 발생 -> 리팩토링 필요
@@ -31,7 +33,7 @@ public class CommunicationUtil {
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(helmetWear);
 
-        return "200".equals(createRequest(json).getString("code"));
+        return "200".equals(createRequest(json, wearUrl).getString("code"));
     }
 
     //TODO 오버로딩 중복코드 발생 -> 리팩토링 필요
@@ -39,12 +41,12 @@ public class CommunicationUtil {
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(helmetLocation);
 
-        return "200".equals(createRequest(json).getString("code"));
+        return "200".equals(createRequest(json, locationUrl).getString("code"));
 
     }
 
     // 코드 리팩토링을 위한 메소드
-    public JSONObject createRequest(String json) throws IOException, JSONException {
+    public JSONObject createRequest(String json, String url) throws IOException, JSONException {
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         OkHttpClient okHttpClient = new OkHttpClient();
 
