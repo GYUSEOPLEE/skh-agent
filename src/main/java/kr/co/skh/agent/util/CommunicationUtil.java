@@ -4,13 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.skh.agent.domain.Helmet;
 import kr.co.skh.agent.domain.HelmetLocation;
 import kr.co.skh.agent.domain.HelmetWear;
+import lombok.extern.log4j.Log4j2;
 import okhttp3.*;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.json.*;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
 
+@Log4j2
 @Component
 public class CommunicationUtil {
     @Value("${hlm-protocol}") private String protocol;
@@ -22,14 +23,18 @@ public class CommunicationUtil {
     //TODO 오버로딩 중복코드 발생 -> 리팩토링 필요
     //헬멧 정보 전송
     public boolean request(Helmet helmet) throws IOException, JSONException {
+        log.debug("request(헬멧 정보)");
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(helmet);
+
 
         return "200".equals(createRequest(json, infoUrl).getString("code"));
     }
 
     //TODO 오버로딩 중복코드 발생 -> 리팩토링 필요
+    //헬멧 착용 여부 전송
     public boolean request(HelmetWear helmetWear) throws IOException, JSONException {
+        log.debug("request(헬멧 착용여부)");
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(helmetWear);
 
@@ -37,7 +42,9 @@ public class CommunicationUtil {
     }
 
     //TODO 오버로딩 중복코드 발생 -> 리팩토링 필요
+    //헬멧 위치 정보 전송
     public boolean request(HelmetLocation helmetLocation) throws IOException, JSONException {
+        log.debug("request(헬멧 위치정보)");
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(helmetLocation);
 
@@ -63,23 +70,4 @@ public class CommunicationUtil {
         assert responseBody != null;
         return new JSONObject(responseBody.string());
     }
-    //        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-//        OkHttpClient okHttpClient = new OkHttpClient();
-//
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        String json = objectMapper.writeValueAsString(helmet);
-//        RequestBody requestBody = RequestBody.create(JSON, json);
-//
-//        Request request = new Request.Builder()
-//                .url(protocol + serverIp + url)
-//                .post(requestBody)
-//                .build();
-//
-//        Response response = okHttpClient.newCall(request).execute();
-//        ResponseBody responseBody = response.body();
-//
-//        assert responseBody != null;
-//        JSONObject statusResponse = new JSONObject(responseBody.string());
-//
-//        return "200".equals(statusResponse.getString("code"));
 }

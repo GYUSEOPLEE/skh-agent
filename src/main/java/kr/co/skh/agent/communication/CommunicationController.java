@@ -1,10 +1,9 @@
 package kr.co.skh.agent.communication;
 
 import kr.co.skh.agent.device.AgentService;
-import kr.co.skh.agent.domain.HelmetLocation;
-import kr.co.skh.agent.domain.HelmetWear;
 import kr.co.skh.agent.domain.Kickboard;
 import kr.co.skh.agent.exception.ReceiveState;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,14 +11,17 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
+@Log4j2
 @RestController
 public class CommunicationController {
     @Autowired CommunicationService communicationService;
     @Autowired AgentService agentService;
 
     //킥보드 사용 여부 수신
-    @PostMapping("kickboard/use")
+    @PostMapping("/kickboard/use")
     public ResponseEntity<ReceiveState> receiveKickboardUse(@RequestBody @Valid Kickboard kickboard) {
+        log.debug("킥보드 사용 정보 수신 " + kickboard.toString());
+
         return ResponseEntity.ok()
                 .body(ReceiveState.builder()
                         .code("200")
@@ -31,7 +33,13 @@ public class CommunicationController {
     @PostMapping("/helmet/loss")
     public ResponseEntity<ReceiveState> receiveHelmetLoss(@RequestBody @Valid @NotBlank String loss) {
         if ("Y".equals(loss)) {
-            agentService.warnHelmetLoss();
+            log.debug("헬멧 분실여부 " + loss);
+            try {
+                agentService.warnHelmetLoss();
+                log.debug("헬멧 분실 경고음 성공");
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
         }
         return ResponseEntity.ok()
                 .body(ReceiveState.builder()
