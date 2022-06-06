@@ -11,8 +11,8 @@
     <groupId>kr.co.skh.agent</groupId>
     <artifactId>communication</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>SKH-agent</name>
-    <description>SKH-agent</description>
+    <name>skh-agent</name>
+    <description>skh-agent</description>
     <properties>
         <java.version>11</java.version>
     </properties>

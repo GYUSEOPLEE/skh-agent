@@ -8,46 +8,47 @@ import org.springframework.scheduling.annotation.Async;
 
 @Log4j2
 public class SensorUtil extends Thread {
-    private final GpioController gpio = GpioFactory.getInstance();
-    private long rejectionTime;
-    private GpioPinDigitalOutput pinTrig;
-    private GpioPinDigitalInput pinEcho;
-    private GpioPinDigitalOutput pinWarnNotice;
+    private static final GpioController gpio = GpioFactory.getInstance();
+    private static GpioPinDigitalOutput pinTrig = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "pintTrig", PinState.HIGH);
+    private static GpioPinDigitalInput pinEcho = gpio.provisionDigitalInputPin(RaspiPin.GPIO_00, PinPullResistance.PULL_DOWN);
+    private static GpioPinDigitalOutput pinWarnNotice = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02, PinState.LOW);
 
-    public SensorUtil(int echo, int trig, int warnNotice, long rejectionTime) {
-        this.rejectionTime = rejectionTime;
-
-        pinTrig = gpio.provisionDigitalOutputPin(RaspiPin.getPinByAddress(trig), "pinTrig", PinState.HIGH);
+    public SensorUtil() {
         pinTrig.setShutdownOptions(true, PinState.LOW);
-
-        pinEcho = gpio.provisionDigitalInputPin(RaspiPin.getPinByAddress(echo), PinPullResistance.PULL_DOWN);
-
-        pinWarnNotice = gpio.provisionDigitalOutputPin(RaspiPin.getPinByAddress(warnNotice), PinState.LOW);
     }
     // 초음파 센서 작동
     public int detectObject() {
         int distance;
         long startTime;
         long endTime;
+        long start = 0;
         long time = 0;
 
         pinTrig.low();
         busyWaitMicros(2);
 
         pinTrig.high();
-        startTime = System.nanoTime();
         busyWaitMicros(10);
 
         pinTrig.low();
 
         while (pinEcho.isLow()) {
+            busyWaitNanos(1);
+            start++;
+
+            if (start == 1000) {
+                log.info("rejectionStart 주의 max 1000 -> " + start);
+                return 81;
+            }
         }
+        startTime = System.nanoTime();
 
         while (pinEcho.isHigh()) {
             busyWaitNanos(1);
             time++;
 
-            if (time == rejectionTime) {
+            if (time == 235229411) {
+                log.info("rejectionTime 주의 max 235229411 ->" + time);
                 return 81; // 헬멧 착용 범위 80mm
             }
         }
@@ -55,6 +56,7 @@ public class SensorUtil extends Thread {
         endTime = System.nanoTime();
         distance = (int) ((endTime - startTime) / 5882.35294118);
 
+        log.info("초음파 측정 거리 " + distance);
         return distance;
     }
 
@@ -91,7 +93,7 @@ public class SensorUtil extends Thread {
     public void run() {
         while (true) {
             kickboardLocation();
-            log.debug("GPS 파이썬 코드 실행");
+            log.info("GPS 파이썬 코드 실행");
             Thread.sleep(1000);
         }
     }

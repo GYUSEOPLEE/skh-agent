@@ -20,7 +20,7 @@ public class CommunicationController {
     //킥보드 사용 여부 수신
     @PostMapping("/kickboard/use")
     public ResponseEntity<ReceiveState> receiveKickboardUse(@RequestBody @Valid Kickboard kickboard) {
-        log.debug("킥보드 사용 정보 수신 " + kickboard.toString());
+        log.info("킥보드 사용 정보 수신 " + kickboard.toString());
 
         return ResponseEntity.ok()
                 .body(ReceiveState.builder()
@@ -33,10 +33,10 @@ public class CommunicationController {
     @PostMapping("/helmet/loss")
     public ResponseEntity<ReceiveState> receiveHelmetLoss(@RequestBody @Valid @NotBlank String loss) {
         if ("Y".equals(loss)) {
-            log.debug("헬멧 분실여부 " + loss);
+            log.info("헬멧 분실여부 " + loss);
             try {
                 agentService.warnHelmetLoss();
-                log.debug("헬멧 분실 경고음 성공");
+                log.info("헬멧 분실 경고음 성공");
             } catch(Exception e) {
                 e.printStackTrace();
             }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Getter @Builder(toBuilder = true)
+@Getter @Builder(toBuilder = true) @ToString
 @NoArgsConstructor @AllArgsConstructor
 @Component @Scope("prototype")
 public class HelmetLocation {

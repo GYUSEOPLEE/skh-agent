@@ -23,7 +23,6 @@ public class CommunicationUtil {
     //TODO 오버로딩 중복코드 발생 -> 리팩토링 필요
     //헬멧 정보 전송
     public boolean request(Helmet helmet) throws IOException, JSONException {
-        log.debug("request(헬멧 정보)");
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(helmet);
 
@@ -34,7 +33,6 @@ public class CommunicationUtil {
     //TODO 오버로딩 중복코드 발생 -> 리팩토링 필요
     //헬멧 착용 여부 전송
     public boolean request(HelmetWear helmetWear) throws IOException, JSONException {
-        log.debug("request(헬멧 착용여부)");
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(helmetWear);
 
@@ -44,7 +42,6 @@ public class CommunicationUtil {
     //TODO 오버로딩 중복코드 발생 -> 리팩토링 필요
     //헬멧 위치 정보 전송
     public boolean request(HelmetLocation helmetLocation) throws IOException, JSONException {
-        log.debug("request(헬멧 위치정보)");
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(helmetLocation);
 
