@@ -59,6 +59,7 @@ public class CommunicationServiceImpl extends Thread implements CommunicationSer
     @Async(value = "applicationTaskExecutor")
     public void sendHelmetWear() {
         AgentService agentService = ApplicationContextProvider.getBean(AgentService.class);
+        CommunicationUtil communicationUtil = ApplicationContextProvider.getBean(CommunicationUtil.class);
         log.info("킥보드 사용여부 " + kickboard.getUse());
         if ("Y".equals(kickboard.getUse())) {
             try {
@@ -70,7 +71,6 @@ public class CommunicationServiceImpl extends Thread implements CommunicationSer
                     agentService.warnHelmetNoWear();
                     log.info("미착용 경고음 성공 ");
                 }
-                CommunicationUtil communicationUtil = ApplicationContextProvider.getBean(CommunicationUtil.class);
                 boolean result = communicationUtil.request(helmetWear);
                 log.info("헬멧 착용 여부 송신 성공 (킥보드 사용중) " + result);
             } catch (Exception e) {
@@ -80,6 +80,7 @@ public class CommunicationServiceImpl extends Thread implements CommunicationSer
         else {
             try {
                 log.info("헬멧 착용 여부 request() 전");
+                Helmet helmet = ApplicationContextProvider.getBean(Helmet.class);
                 boolean result = communicationUtil.request(HelmetWear.builder()
                         .helmetNo(helmet.getNo())
                         .build());
@@ -101,7 +102,6 @@ public class CommunicationServiceImpl extends Thread implements CommunicationSer
             helmetLocation = agentService.checkHelmetLocation().toBuilder()
                     .dateTime(localDateTime)
                     .build();
-            HelmetLocation helmetLocation = ApplicationContextProvider.getBean(HelmetLocation.class);
             log.info("헬멧 위치 정보 체크 " + helmetLocation.toString());
             // 생성된 HelmetLocation 객체 정보 전송
             CommunicationUtil communicationUtil = ApplicationContextProvider.getBean(CommunicationUtil.class);

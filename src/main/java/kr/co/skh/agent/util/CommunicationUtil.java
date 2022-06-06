@@ -1,6 +1,7 @@
 package kr.co.skh.agent.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import kr.co.skh.agent.domain.Helmet;
 import kr.co.skh.agent.domain.HelmetLocation;
 import kr.co.skh.agent.domain.HelmetWear;
@@ -43,6 +44,7 @@ public class CommunicationUtil {
     //헬멧 위치 정보 전송
     public boolean request(HelmetLocation helmetLocation) throws IOException, JSONException {
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
         String json = objectMapper.writeValueAsString(helmetLocation);
 
         return "200".equals(createRequest(json, locationUrl).getString("code"));
