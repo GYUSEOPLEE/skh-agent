@@ -15,7 +15,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.net.InetAddress;
 import java.time.LocalDateTime;
 
 @Log4j2
@@ -36,8 +35,6 @@ public class CommunicationServiceImpl extends Thread implements CommunicationSer
     @Override
     public void sendHelmet()  {
         try {
-            InetAddress ip = InetAddress.getLocalHost();
-            helmet.setIp(ip.getHostAddress());
             Thread.sleep(10000);
 
             boolean result = communicationUtil.request(helmet); //true / false 후 처리
