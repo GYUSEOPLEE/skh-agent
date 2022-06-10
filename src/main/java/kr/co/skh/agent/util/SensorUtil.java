@@ -81,20 +81,20 @@ public class SensorUtil extends Thread {
         }
     }
 
-    @Async
-    public void kickboardLocation() {
-        PythonInterpreter pythonInterpreter = new PythonInterpreter();
-        pythonInterpreter.execfile("tgs.py");
-        pythonInterpreter.exec("main()");
-    }
-
-    @SneakyThrows
-    @Override
-    public void run() {
-        while (true) {
-            kickboardLocation();
-            log.info("GPS 파이썬 코드 실행");
-            Thread.sleep(1000);
-        }
-    }
+//    @Async
+//    public void kickboardLocation() {
+//        PythonInterpreter pythonInterpreter = new PythonInterpreter();
+//        pythonInterpreter.execfile("tgs.py");
+//        pythonInterpreter.exec("main()");
+//    }
+//
+//    @SneakyThrows
+//    @Override
+//    public void run() {
+//        while (true) {
+//            kickboardLocation();
+//            log.info("GPS 파이썬 코드 실행");
+//            Thread.sleep(1000);
+//        }
+//    }
 }
