@@ -2,6 +2,7 @@ package kr.co.skh.agent.util;
 
 import kr.co.skh.agent.communication.CommunicationService;
 import kr.co.skh.agent.communication.CommunicationServiceImpl;
+import kr.co.skh.agent.config.ApplicationContextProvider;
 import kr.co.skh.agent.device.AgentService;
 import kr.co.skh.agent.domain.Kickboard;
 import lombok.extern.log4j.Log4j2;
@@ -13,12 +14,11 @@ import javax.annotation.PostConstruct;
 @Component
 public class InitializingDevice {
     @Autowired private CommunicationService communicationService;
-    @Autowired private Kickboard kickboard;
-    @Autowired private AgentService agentService;
     @PostConstruct
     public void init() {
         communicationService.sendHelmet();
 
+        Kickboard kickboard = ApplicationContextProvider.getBean(Kickboard.class);
         //헬멧 착용정보 송신
         Thread thread = new CommunicationServiceImpl(kickboard);
         thread.start();

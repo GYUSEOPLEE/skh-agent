@@ -1,11 +1,12 @@
 package kr.co.skh.agent.domain;
 
 import lombok.*;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Getter
+@Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
 @Component
 public class Kickboard {

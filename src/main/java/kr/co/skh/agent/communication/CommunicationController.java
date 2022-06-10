@@ -21,6 +21,8 @@ public class CommunicationController {
     public ResponseEntity<ReceiveState> receiveKickboardUse(@RequestBody @Valid Kickboard kickboard) {
         log.info("킥보드 사용 정보 수신 " + kickboard.getUse());
 
+        CommunicationServiceImpl communicationServiceImpl = new CommunicationServiceImpl(kickboard);
+
         return ResponseEntity.ok()
                 .body(ReceiveState.builder()
                         .code("200")

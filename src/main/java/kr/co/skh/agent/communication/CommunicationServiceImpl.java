@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 public class CommunicationServiceImpl extends Thread implements CommunicationService{
     @Autowired private CommunicationUtil communicationUtil;
     @Autowired private AgentService agentService;
-    @Autowired private Kickboard kickboard;
+    private static volatile Kickboard kickboard;
     @Autowired private HelmetLocation helmetLocation;
     @Autowired private Helmet helmet;
     @Value("${path}") String watchPath;
@@ -31,6 +31,7 @@ public class CommunicationServiceImpl extends Thread implements CommunicationSer
     public CommunicationServiceImpl(Kickboard kickboard) {
         this.kickboard = kickboard;
     }
+
     // 헬멧 정보 전송
     @Override
     public void sendHelmet()  {
