@@ -1,10 +1,7 @@
 package kr.co.skh.agent.util;
 
 import com.pi4j.io.gpio.*;
-import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
-import org.python.util.PythonInterpreter;
-import org.springframework.scheduling.annotation.Async;
 
 @Log4j2
 public class SensorUtil extends Thread {
@@ -80,21 +77,4 @@ public class SensorUtil extends Thread {
             Thread.sleep(200);
         }
     }
-
-//    @Async
-//    public void kickboardLocation() {
-//        PythonInterpreter pythonInterpreter = new PythonInterpreter();
-//        pythonInterpreter.execfile("tgs.py");
-//        pythonInterpreter.exec("main()");
-//    }
-//
-//    @SneakyThrows
-//    @Override
-//    public void run() {
-//        while (true) {
-//            kickboardLocation();
-//            log.info("GPS 파이썬 코드 실행");
-//            Thread.sleep(1000);
-//        }
-//    }
 }

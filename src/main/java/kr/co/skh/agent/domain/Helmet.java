@@ -3,7 +3,6 @@ package kr.co.skh.agent.domain;
 import lombok.*;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
-
 import java.io.Serializable;
 
 @Getter

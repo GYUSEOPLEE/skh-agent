@@ -1,13 +1,11 @@
 package kr.co.skh.agent.domain;
 
 import lombok.*;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Getter @Builder
+@Getter
 @AllArgsConstructor @NoArgsConstructor
 @Component
 public class Kickboard {
@@ -15,6 +13,5 @@ public class Kickboard {
     private String no;
 
     @NotBlank(message = "입력값이 존재하지 않아요")
-    @Builder.Default
-    private String use = "N";
+    private String use;
 }

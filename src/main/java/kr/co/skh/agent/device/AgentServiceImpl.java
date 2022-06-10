@@ -24,18 +24,14 @@ public class AgentServiceImpl implements AgentService {
     //TODO 헬멧 착용 여부 확인 (와치서비스 제거)
     @Override
     public HelmetWear checkHelmetWear() {
-        log.info("checkHelmetWear 진입");
         sensorUtil = new SensorUtil(); //TODO 생성자 코드에서 주입할지 생각 (스레드 세이프 문제 없을시)
-        log.info("sensorUtil 생성");
         // 초음파 센서 실행, 물체 감지 거리가 80mm 미만시 착용으로 판단
         if (sensorUtil.detectObject() < 80) {
-            log.info("헬멧 착용 O");
             return HelmetWear.builder()
                     .helmetNo(helmet.getNo())
                     .wear("Y")
                     .build();
         }
-        log.info("헬멧 착용 X");
         // 물체 감지 거리가 80mm 이상시 미착용으로 판단
         return HelmetWear.builder()
                 .helmetNo(helmet.getNo())

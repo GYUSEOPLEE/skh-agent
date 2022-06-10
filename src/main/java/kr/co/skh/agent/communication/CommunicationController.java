@@ -7,7 +7,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
@@ -20,7 +19,7 @@ public class CommunicationController {
     //킥보드 사용 여부 수신
     @PostMapping("/kickboard/use")
     public ResponseEntity<ReceiveState> receiveKickboardUse(@RequestBody @Valid Kickboard kickboard) {
-        log.info("킥보드 사용 정보 수신 " + kickboard.toString());
+        log.info("킥보드 사용 정보 수신 " + kickboard.getUse());
 
         return ResponseEntity.ok()
                 .body(ReceiveState.builder()
@@ -33,10 +32,8 @@ public class CommunicationController {
     @PostMapping("/helmet/loss")
     public ResponseEntity<ReceiveState> receiveHelmetLoss(@RequestBody @Valid @NotBlank String loss) {
         if ("Y".equals(loss)) {
-            log.info("헬멧 분실여부 " + loss);
             try {
                 agentService.warnHelmetLoss();
-                log.info("헬멧 분실 경고음 성공");
             } catch(Exception e) {
                 e.printStackTrace();
             }
