@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.util.Map;
 
 @Log4j2
 @RestController
@@ -32,8 +33,9 @@ public class CommunicationController {
 
     //헬멧 분실 여부 수신
     @PostMapping("/helmet/loss")
-    public ResponseEntity<ReceiveState> receiveHelmetLoss(@RequestBody @Valid @NotBlank String loss) {
-        if ("Y".equals(loss)) {
+    public ResponseEntity<ReceiveState> receiveHelmetLoss(@RequestBody @Valid @NotBlank Map<String, String> lossMap) {
+        log.info("헬멧 분실 여부 : " + lossMap.get("loss"));
+        if ("Y".equals(lossMap.get("loss"))) {
             try {
                 agentService.warnHelmetLoss();
             } catch(Exception e) {
