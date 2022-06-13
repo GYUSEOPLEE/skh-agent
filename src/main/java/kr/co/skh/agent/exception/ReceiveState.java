@@ -1,11 +1,10 @@
-package kr.co.skh.agent.communication;
+package kr.co.skh.agent.exception;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import java.io.Serializable;
 
-@Getter
-@Setter
+@Getter @Builder
+@NoArgsConstructor @AllArgsConstructor
 public class ReceiveState implements Serializable {
     private String code;
     private String message;
