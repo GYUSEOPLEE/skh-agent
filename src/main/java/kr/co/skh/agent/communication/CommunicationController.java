@@ -20,10 +20,9 @@ public class CommunicationController {
     //킥보드 사용 여부 수신
     @PostMapping("/kickboard/use")
     public ResponseEntity<ReceiveState> receiveKickboardUse(@RequestBody @Valid Kickboard kickboard) {
-        log.info("킥보드 사용 정보 수신 " + kickboard.getUse());
-
         CommunicationServiceImpl communicationServiceImpl = new CommunicationServiceImpl(kickboard);
 
+        log.info("수신된 킥보드 사용 여부 {}", kickboard);
         return ResponseEntity.ok()
                 .body(ReceiveState.builder()
                         .code("200")
@@ -34,7 +33,6 @@ public class CommunicationController {
     //헬멧 분실 여부 수신
     @PostMapping("/helmet/loss")
     public ResponseEntity<ReceiveState> receiveHelmetLoss(@RequestBody @Valid @NotBlank Map<String, String> lossMap) {
-        log.info("헬멧 분실 여부 : " + lossMap.get("loss"));
         if ("Y".equals(lossMap.get("loss"))) {
             try {
                 agentService.warnHelmetLoss();
@@ -42,6 +40,8 @@ public class CommunicationController {
                 e.printStackTrace();
             }
         }
+
+        log.info("수신된 헬멧 분실 여부 {}", lossMap.get("loss"));
         return ResponseEntity.ok()
                 .body(ReceiveState.builder()
                         .code("200")

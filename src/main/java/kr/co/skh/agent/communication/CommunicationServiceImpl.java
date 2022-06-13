@@ -7,13 +7,16 @@ import kr.co.skh.agent.domain.HelmetLocation;
 import kr.co.skh.agent.domain.HelmetWear;
 import kr.co.skh.agent.domain.Kickboard;
 import kr.co.skh.agent.util.CommunicationUtil;
-import lombok.extern.log4j.Log4j2;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
+import lombok.extern.log4j.Log4j2;
+
 import java.net.InetAddress;
 import java.time.LocalDateTime;
 
@@ -23,10 +26,10 @@ import java.time.LocalDateTime;
 public class CommunicationServiceImpl extends Thread implements CommunicationService{
     @Autowired private CommunicationUtil communicationUtil;
     @Autowired private AgentService agentService;
-    private static volatile Kickboard kickboard;
     @Autowired private HelmetLocation helmetLocation;
     @Autowired private Helmet helmet;
     @Value("${path}") String watchPath;
+    private static volatile Kickboard kickboard;
 
     public CommunicationServiceImpl(Kickboard kickboard) {
         this.kickboard = kickboard;
@@ -40,7 +43,8 @@ public class CommunicationServiceImpl extends Thread implements CommunicationSer
             helmet.setIp(ip.getHostAddress());
             Thread.sleep(10000);
 
-            boolean result = communicationUtil.request(helmet); //true / false 후 처리
+            boolean result = communicationUtil.request(helmet);
+            log.info("헬멧 정보 전송 체크 {}", result);
         } catch (Exception e) {
             log.debug(e.getMessage());
         }
@@ -50,7 +54,6 @@ public class CommunicationServiceImpl extends Thread implements CommunicationSer
     @Override
     public void run() {
         while (true) {
-            log.info("스레드 실행");
             try {
                 sendHelmetWear();
                 Thread.sleep(2000);
@@ -69,15 +72,16 @@ public class CommunicationServiceImpl extends Thread implements CommunicationSer
         if ("Y".equals(kickboard.getUse())) {
             try {
                 HelmetWear helmetWear = agentService.checkHelmetWear();
-                log.info("헬멧 착용 여부 체크 " + helmetWear.toString());
+                log.info("헬멧 착용 여부 체크 {}", helmetWear.toString());
+
                 // 헬멧 미착용시 경고음 알림
                 if ("N".equals(helmetWear.getWear())) {
                     agentService.warnHelmetNoWear();
                 }
                 boolean result = communicationUtil.request(helmetWear);
-                log.info("헬멧 착용 여부 송신 성공 (킥보드 사용중) " + result);
+                log.info("헬멧 착용 여부 송신 성공 (킥보드 사용중) {}", result);
             } catch (Exception e) {
-                log.info(String.valueOf(e));
+                log.info(e.getMessage());
             }
         }
         else {
@@ -86,7 +90,7 @@ public class CommunicationServiceImpl extends Thread implements CommunicationSer
                 boolean result = communicationUtil.request(HelmetWear.builder()
                         .helmetNo(helmet.getNo())
                         .build());
-                log.info("헬멧 착용 여부 송신 성공 (킥보드 미사용중) " + result);
+                log.info("헬멧 착용 여부 송신 성공 (킥보드 미사용중) {}", result);
             } catch (Exception e) {
                 log.info(e.getMessage());
             }
@@ -107,9 +111,9 @@ public class CommunicationServiceImpl extends Thread implements CommunicationSer
             // 생성된 HelmetLocation 객체 정보 전송
             CommunicationUtil communicationUtil = ApplicationContextProvider.getBean(CommunicationUtil.class);
             boolean result = communicationUtil.request(helmetLocation);
-            log.info("헬멧 위치 정보 송신 성공 " + result);
+            log.info("헬멧 위치 정보 송신 성공 {}", result);
         } catch(Exception e) {
-            log.info("헬멧 위치 정보 송신 실패 ");
+            log.info("헬멧 위치 정보 송신 실패");
         }
     }
 }

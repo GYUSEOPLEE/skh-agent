@@ -34,8 +34,7 @@ public class SensorUtil extends Thread {
             start++;
 
             if (start == 1000) {
-                log.info("rejectionStart 주의 max 1000 -> " + start);
-                return 81;
+                return 101;
             }
         }
         startTime = System.nanoTime();
@@ -45,8 +44,7 @@ public class SensorUtil extends Thread {
             time++;
 
             if (time == 235229411) {
-                log.info("rejectionTime 주의 max 235229411 ->" + time);
-                return 81; // 헬멧 착용 범위 80mm
+                return 101; // 헬멧 착용 범위 80mm
             }
         }
 

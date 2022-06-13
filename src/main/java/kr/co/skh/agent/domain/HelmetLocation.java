@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
-@Getter @Builder(toBuilder = true) @ToString
+@Getter @Builder(toBuilder = true)
 @NoArgsConstructor @AllArgsConstructor
 @Component @Scope("prototype")
 public class HelmetLocation {
